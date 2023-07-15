@@ -1,5 +1,5 @@
 # ProHunt
-ProHunt Is a Subdomain Finder Tool By Google Dorking and designed for educational and ethical purposes. It allows you to discover subdomains of a target domain and scan for open ports on those subdomains. Please note that ProHunt should only be used responsibly and with proper authorization.
+ProHunt Is a Subdomain Finder Tool using Google Dorking and designed for educational and ethical purposes. It allows you to discover subdomains of a target domain and scan for open ports on those subdomains. Please note that ProHunt should only be used responsibly and with proper authorization.
 
 ## Features
 
