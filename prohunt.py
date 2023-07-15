@@ -2,7 +2,6 @@
 import requests
 import argparse
 import socket
-import subprocess
 import sys
 import time
 from bs4 import BeautifulSoup
@@ -83,15 +82,6 @@ def find_subdomains(target, wordlist):
     return subdomains
 
 
-def run_subbrute(domain, threads):
-    try:
-        output = subprocess.check_output(['subbrute/subbrute.py', '-p', domain, '-s', str(threads)])
-        subdomains = output.decode('utf-8').split('\n')[:-1]
-        return subdomains
-    except subprocess.CalledProcessError:
-        return []
-
-
 def get_ip(subdomain):
     try:
         ip = socket.gethostbyname(subdomain)
@@ -147,7 +137,7 @@ def save_results(filename, target, subdomains, open_ports, include_ips):
                 file.write(f"{subdomain}: No open ports found\n")
 
 
-def main(target, ports, timeout, verbose, threads, output, include_ips, ips_only, wordlist, update):
+def main(target, ports, timeout, verbose, output, include_ips, ips_only, wordlist, update):
     if update:
         latest_version = check_latest_version()
         if latest_version and latest_version != VERSION:
@@ -170,10 +160,7 @@ def main(target, ports, timeout, verbose, threads, output, include_ips, ips_only
         print(f"Please update your tool to access the latest features and improvements.")
         print(f"GitHub repository: https://github.com/{GITHUB_REPO}\n")
 
-    subdomains_google = find_subdomains(target, wordlist)
-    subdomains_brute = run_subbrute(target, threads)
-    subdomains = subdomains_google + subdomains_brute
-    subdomains = list(set(subdomains))
+    subdomains = find_subdomains(target, wordlist)
 
     open_ports = scan_ports(subdomains, ports, timeout, verbose)
 
@@ -210,11 +197,10 @@ if __name__ == '__main__':
     parser.add_argument('-t', '--timeout', type=float, default=2.0,
                         help='Timeout value for port scanning (in seconds) (default: 2.0)')
     parser.add_argument('-v', '--verbose', action='store_true', help='Enable verbose mode')
-    parser.add_argument('-s', '--threads', type=int, default=10, help='Number of threads for subdomain bruteforce (default: 10)')
     parser.add_argument('-o', '--output', help='Output file to save the results')
     parser.add_argument('-ip', '--include-ips', action='store_true', help='Include IP addresses along with subdomain names')
     parser.add_argument('-ip-only', '--ips-only', action='store_true', help='Display only the IP addresses of subdomains')
     parser.add_argument('-w', '--wordlist', help='Specify a wordlist file for dorking')
     args = parser.parse_args()
 
-    main(args.target, args.ports, args.timeout, args.verbose, args.threads, args.output, args.include_ips, args.ips_only, args.wordlist, args.update)
+    main(args.target, args.ports, args.timeout, args.verbose, args.output, args.include_ips, args.ips_only, args.wordlist, args.update)
