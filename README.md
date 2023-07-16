@@ -4,7 +4,7 @@
   <a href="#installation">Install</a> •
   <a href="#usage">Usage</a> •
   <a href="#options">Options</a> •
-  <a href="#recommendedpythonversion">Python version</a> •
+  <a href="#Recommended Python Version">Python version</a> •
   <a href="Examples">Examples</a>
 </p>
 
