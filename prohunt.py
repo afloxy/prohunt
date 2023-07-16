@@ -159,7 +159,7 @@ def main(domain, ports, timeout, verbose, output, include_ips, ips_only, wordlis
         sys.exit(0)
 
     print(TOOL_NAME())
-    print(DESCRIPTION)
+    print(WAR)
     show_animation()
     print("\n")
 
