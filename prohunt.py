@@ -63,14 +63,22 @@ def load_wordlist(wordlist):
             dorks = f.read().splitlines()
             return dorks
 
-def find_subdomains(target, wordlist):
-    dorks = load_wordlist(wordlist)
+def find_subdomains(domain, wordlist):
     subdomains = []
 
+    with open(wordlist, "r") as f:
+        dorks = f.read().splitlines()
+
     for dork in dorks:
+        if "{target}" not in dork:
+            dork = dork + " site:" + domain
+        else:
+            dork = dork.replace("{target}", domain)
+
         url = f"https://www.google.com/search?q={dork}"
         headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'}
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'
+        }
         response = requests.get(url, headers=headers)
         soup = BeautifulSoup(response.text, 'html.parser')
         results = soup.find_all('a')
@@ -82,7 +90,6 @@ def find_subdomains(target, wordlist):
                 subdomains.append(subdomain)
 
     return subdomains
-
 
 def get_ip(subdomain):
     try:
