@@ -6,17 +6,16 @@ import sys
 import time
 from bs4 import BeautifulSoup
 
-
 print("""%s
-  _____           _    _             _   
- |  __ \         | |  | |           | |  
- | |__) | __ ___ | |__| |_   _ _ __ | |_ 
- |  ___/ '__/ _ \|  __  | | | | '_ \| __|
- | |   | | | (_) | |  | | |_| | | | | |_ 
- |_|   |_|  \___/|_|  |_|\__,_|_| |_|\__| 
+                 _____           _    _             _   
+                |  __ \         | |  | |           | |  
+                | |__) | __ ___ | |__| |_   _ _ __ | |_ 
+                |  ___/ '__/ _ \|  __  | | | | '_ \| __|
+                | |   | | | (_) | |  | | |_| | | | | |_ 
+                |_|   |_|  \___/|_|  |_|\__,_|_| |_|\__|@v1.0.0
 
-       # Coded By Nikhil Dwivedi - @afloxy
-  """ % (R, W, Y))
+                  # Coded By Nikhil Dwivedi - @afloxy
+    """ % (R, W, Y))
 
 # Version information
 VERSION = "https://api.github.com/repos/afloxy/prohunt/releases/latest"
