@@ -71,8 +71,7 @@ def load_wordlist(wordlist):
 def find_subdomains(domain, wordlist):
     subdomains = []
 
-    with open(wordlist, "r") as f:
-        dorks = f.read().splitlines()
+    dorks = load_wordlist(wordlist)
 
     for dork in dorks:
         if "{target}" not in dork:
