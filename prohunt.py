@@ -52,7 +52,8 @@ def check_latest_version():
 
 
 def show_animation():
-    for frame in ANIMATION_FRAMES and for alrt in WAR:
+    for frame in ANIMATION_FRAMES:
+      for alrt in WAR:
         sys.stdout.write(f"\r{frame} {alrt}")
         sys.stdout.flush()
         time.sleep(0.1)
