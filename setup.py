@@ -21,7 +21,7 @@ if script_path not in path_env:
     os.environ["PATH"] = new_path
     
     # Move the script file to a directory in the PATH
-    shutil.copy(script_path, "/usr/local/bin/prohunt")  # Update the destination directory if needed
+    shutil.copy(script_path, "/usr/local/bin/")  # Update the destination directory if needed
     
     # Give the "prohunt" script executable permissions
     script_executable_path = "/usr/local/bin/prohunt.py"  # Update the path if needed
