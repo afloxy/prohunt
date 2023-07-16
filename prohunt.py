@@ -6,17 +6,20 @@ import sys
 import time
 from bs4 import BeautifulSoup
 
-TOOL_NAME = r"""
+
+print("""%s
   _____           _    _             _   
  |  __ \         | |  | |           | |  
  | |__) | __ ___ | |__| |_   _ _ __ | |_ 
  |  ___/ '__/ _ \|  __  | | | | '_ \| __|
  | |   | | | (_) | |  | | |_| | | | | |_ 
- |_|   |_|  \___/|_|  |_|\__,_|_| |_|\__|                                                                                
-"""
+ |_|   |_|  \___/|_|  |_|\__,_|_| |_|\__| 
+
+       # Coded By Nikhil Dwivedi - @afloxy
+  """ % (R, W, Y))
 
 # Version information
-VERSION = "v1.1"
+VERSION = "https://api.github.com/repos/afloxy/prohunt/releases/latest"
 
 # Tool description
 DESCRIPTION = "The ProHunt tool is provided for educational and ethical purposes only. Usage of ProHunt for any unauthorized activities is strictly prohibited. You are solely responsible for your actions and the consequences of using this tool."
