@@ -6,7 +6,8 @@ import sys
 import time
 from bs4 import BeautifulSoup
 
-print("""%s
+def TOOL_NAME():
+  print("""%s%s%s
                  _____           _    _             _   
                 |  __ \         | |  | |           | |  
                 | |__) | __ ___ | |__| |_   _ _ __ | |_ 
@@ -16,6 +17,7 @@ print("""%s
 
                   # Coded By Nikhil Dwivedi - @afloxy
     """ % (R, W, Y))
+
 
 # Version information
 VERSION = "https://api.github.com/repos/afloxy/prohunt/releases/latest"
@@ -47,7 +49,7 @@ def check_latest_version():
 
 def show_animation():
     for frame in ANIMATION_FRAMES:
-        sys.stdout.write(f"\r{frame} {TOOL_NAME} {VERSION}")
+        sys.stdout.write(f"\r{frame} {TOOL_NAME()} {VERSION}")
         sys.stdout.flush()
         time.sleep(0.1)
 
@@ -143,22 +145,22 @@ def main(domain, ports, timeout, verbose, output, include_ips, ips_only, wordlis
     if update:
         latest_version = check_latest_version()
         if latest_version and latest_version != VERSION:
-            print(f"Updating {TOOL_NAME} to version {latest_version}...")
+            print(f"Updating {TOOL_NAME()} to version {latest_version}...")
             subprocess.call(["git", "pull"])
             print("Update completed.")
         else:
-            print(f"{TOOL_NAME} is already up to date.")
+            print(f"{TOOL_NAME()} is already up to date.")
 
         sys.exit(0)
 
-    print(TOOL_NAME)
+    TOOL_NAME()
     print(DESCRIPTION)
     show_animation()
     print("\n")
 
     latest_version = check_latest_version()
     if latest_version and latest_version != VERSION:
-        print(f"\nA new version ({latest_version}) of {TOOL_NAME} is available on GitHub.")
+        print(f"\nA new version ({latest_version}) of {TOOL_NAME()} is available on GitHub.")
         print(f"Please update your tool to access the latest features and improvements.")
         print(f"GitHub repository: https://github.com/{GITHUB_REPO}\n")
 
