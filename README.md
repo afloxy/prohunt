@@ -13,13 +13,14 @@ ProHunt Is a Subdomain Finder Tool using Google Dorking and it designed for educ
 ## Usage
 
 ```bash
-prohunt target [options]
+prohunt -d target [options]
 ```
 
 - target: The target domain to scan for subdomains.
 
 ### Options
 
+- `-d`, `--domain`: domain to find subdomains for.
 - `-u`, `--update`: Update ProHunt to the latest version.
 - `-p`, `--ports`: Specify the TCP ports to scan. Default: 80 and 443.
 - `-t`, `--timeout`: Set the timeout value for port scanning (in seconds). Default: 2.0.
@@ -55,33 +56,38 @@ ProHunt currently supports **Python 3**.
   
 ## Examples
 
-- Discover subdomains and scan open ports:
+- Discover subdomains:
 
 ```bash
-prohunt example.com
+prohunt -d example.com
 ```
+- Discover subdomains with open ports:
 
+```bash
+prohunt -d example.com -p 80 443
+```
+  
 - Save results to a file:
 
 ```bash
-prohunt example.com -o results.txt
+prohunt -d example.com -o results.txt
 ```
 
 - Include IP addresses along with subdomain names:
 
 ```bash
-prohunt example.com -ip
+prohunt -d example.com -ip
 ```
 
 - Display only the IP addresses of subdomains:
 
 ```bash
-prohunt example.com -ip-only
+prohunt -d example.com -ip-only
 ```
 - You can add your own wordlist
   
 ```bash
-prohunt example.com -w /path/to/wordlist.txt
+prohunt -d example.com -w /path/to/wordlist.txt
 ```
 
 ## Contributing
