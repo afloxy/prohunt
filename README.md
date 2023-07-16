@@ -61,7 +61,7 @@ cd prohunt
 3. Install the required dependencies:
 
 ```bash
-sudo python setup.py 
+sudo python3 setup.py 
 ```
 ## Recommended Python Version:
 
