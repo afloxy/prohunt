@@ -152,7 +152,7 @@ def save_results(filename, target, subdomains, open_ports, include_ips):
 
 
 def main(domain, ports, timeout, verbose, output, include_ips, ips_only, wordlist, update):
-  if not domain:
+    if not domain:
         print("Error: Please provide a target domain.")
         return
     if update:
