@@ -222,5 +222,5 @@ if __name__ == '__main__':
     parser.add_argument('-w', '--wordlist', help='Specify a wordlist file for dorking')
     args = parser.parse_args()
 
-    main(args.domain, args.ports, args.timeout, args.verbose, args.output, args.include_ips, args.ips_only,
-         args.wordlist, args.update)
+    main(args.domain, args.ports, args.timeout, args.verbose, args.output, args.include_ips, args.ips_only, args.wordlist, args.update)
+         
