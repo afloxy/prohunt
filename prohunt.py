@@ -4,19 +4,21 @@ import argparse
 import socket
 import sys
 import time
+import subprocess
 from bs4 import BeautifulSoup
 
 def TOOL_NAME():
-  return """%s%s%s
-                 _____           _    _             _   
-                |  __ \         | |  | |           | |  
-                | |__) | __ ___ | |__| |_   _ _ __ | |_ 
-                |  ___/ '__/ _ \|  __  | | | | '_ \| __|
-                | |   | | | (_) | |  | | |_| | | | | |_ 
-                |_|   |_|  \___/|_|  |_|\__,_|_| |_|\__|@v1.0.0
+    return f"""
+    {B}{' ' * 5} _____           _    _             _   
+       {' ' * 6}|  __ \         | |  | |           | |  
+       {' ' * 6}| |__) | __ ___ | |__| |_   _ _ __ | |_ 
+       {' ' * 6}|  ___/ '__/ _ \|  __  | | | | '_ \| __|
+       {' ' * 6}| |   | | | (_) | |  | | |_| | | | | |_ 
+       {' ' * 6}|_|   |_|  \___/|_|  |_|\__,_|_| |_|\__|@{VERSION}
+    
+           {' ' * 9}# Coded By Nikhil Dwivedi - @afloxy
+    """
 
-                  # Coded By Nikhil Dwivedi - @afloxy
-    """ % (R, G, Y)
 G = '\033[92m'  # green
 Y = '\033[93m'  # yellow
 B = '\033[94m'  # blue
@@ -42,7 +44,7 @@ ANIMATION_FRAMES = ["-", "\\", "/"]
 
 def show_animation():
     for i in range(len(ANIMATION_FRAMES)):
-        sys.stdout.write(f"{ANIMATION_FRAMES} {WAR[i]}\n")
+        sys.stdout.write(f"{ANIMATION_FRAMES[i]} {WAR[i]}\n")
         sys.stdout.flush()
         time.sleep(0.1)
 
