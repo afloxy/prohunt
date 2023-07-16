@@ -113,3 +113,5 @@ Contributions to ProHunt are welcome! If you have any bug reports, feature reque
 
 ProHunt is intended for educational and ethical use only. The authors are not responsible for any illegal or unauthorized activities performed with this tool. Use it at your own risk.
 
+<h3 align="left">Support:</h3>
+<p><a href="https://www.buymeacoffee.com/afloxy"> <img align="left" src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" height="50" width="210" alt="afloxy" /></a></p><br><br>
