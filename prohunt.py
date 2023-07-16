@@ -198,7 +198,7 @@ def main(domain, ports, timeout, verbose, output, include_ips, ips_only, wordlis
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description=DESCRIPTION)
+    parser = argparse.ArgumentParser(description=WAR)
     parser.add_argument('-d', '--domain', help='Target domain')
     parser.add_argument('-u', '--update', action='store_true', help='Update Prohunt tool')
     parser.add_argument('-p', '--ports', nargs='+', type=int, default=[80, 443],
