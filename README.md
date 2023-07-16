@@ -4,8 +4,8 @@
   <a href="#installation">Install</a> •
   <a href="#usage">Usage</a> •
   <a href="#options">Options</a> •
-  <a href="#Recommended Python Version">Python version</a> •
-  <a href="Examples">Examples</a>
+  <a href="#recommended-python-version">Python version</a> •
+  <a href="examples">Examples</a>
 </p>
 
 ProHunt Is a Subdomain Finder Tool using Google Dorking and it designed for educational and ethical purposes. It allows you to discover subdomains of a target domain and scan for open ports on those subdomains. Please note that ProHunt should only be used responsibly and with proper authorization.
