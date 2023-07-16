@@ -2,7 +2,7 @@
 
 <p align="center">
 <a href="https://github.com/afloxy/prohunt/issues"><img src="https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat"></a>
-<a href="https://github.com/projectdiscovery/subfinder/releases"><img src="https://img.shields.io/github/release/afloxy/prohunt"></a>
+<a href="https://github.com/afloxy/prohunt/releases"><img src="https://img.shields.io/github/release/afloxy/prohunt"></a>
 <a href="https://twitter.com/AFLOXYgaming"><img src="https://img.shields.io/twitter/follow/prohunt.svg?logo=twitter"></a>
 </p>
 
