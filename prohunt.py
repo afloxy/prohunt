@@ -141,7 +141,7 @@ ANIMATION_FRAMES =  ["/-/", "/^/", "/*/"]
 
 def show_animation():
     for i in range(len(ANIMATION_FRAMES)):
-        sys.stdout.write(f"{Y}{ANIMATION_FRAMES[i]}{B} {WAR[i]}\n")
+        sys.stdout.write(f"{Y}{ANIMATION_FRAMES[i]}{G} {WAR[i]}\n")
         sys.stdout.flush()
         time.sleep(0.1)
 
