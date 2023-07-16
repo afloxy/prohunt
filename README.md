@@ -47,7 +47,12 @@ cd prohunt
 ```bash
 sudo python setup.py 
 ```
+## Recommended Python Version:
 
+ProHunt currently supports **Python 3**.
+
+* The recommended version for Python 3 is **3.4.x**
+  
 ## Examples
 
 - Discover subdomains and scan open ports:
