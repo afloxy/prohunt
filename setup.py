@@ -7,7 +7,7 @@ import sys
 subprocess.check_call([sys.executable, "-m", "pip", "install", "-r", "requirements.txt"])
 
 # Give the "prohunt" script executable permissions
-    script_executable = "/usr/local/bin/prohunt.py"  # Update the path if needed
+    script_executable = "prohunt.py"  # Update the path if needed
     os.chmod(script_executable, +x)
 
 # Get the path to the "prohunt.py" script
