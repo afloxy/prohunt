@@ -38,10 +38,10 @@ GITHUB_API = "https://api.github.com/repos/afloxy/prohunt/releases/latest"
 DEFAULT_WORDLIST = "default_wordlist.txt"
 
 # warning
-WAR = ["The ProHunt tool is provided for educational and ethical purposes only.", "Usage of ProHunt for any unauthorized activities is strictly prohibited.", "You are solely responsible for your actions and the consequences of using this tool."]
+WAR = ["{B]The ProHunt tool is provided for educational and ethical purposes only.", "{B]Usage of ProHunt for any unauthorized activities is strictly prohibited.", "{B]You are solely responsible for your actions and the consequences of using this tool."]
 
 # Cool animation
-ANIMATION_FRAMES = ["-", "\\", "/"]
+ANIMATION_FRAMES = ["{Y}/-\", "{Y}/^\", "{Y}/*\"]
 
 def show_animation():
     for i in range(len(ANIMATION_FRAMES)):
