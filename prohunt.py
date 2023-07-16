@@ -16,14 +16,18 @@ def TOOL_NAME():
                 |_|   |_|  \___/|_|  |_|\__,_|_| |_|\__|@v1.0.0
 
                   # Coded By Nikhil Dwivedi - @afloxy
-    """ % (R, W, Y))
-
+    """ % (R, G, Y))
+G = '\033[92m'  # green
+Y = '\033[93m'  # yellow
+B = '\033[94m'  # blue
+R = '\033[91m'  # red
+W = '\033[0m'   # white
 
 # Version information
 VERSION = "https://api.github.com/repos/afloxy/prohunt/releases/latest"
 
-# Tool description
-DESCRIPTION = "The ProHunt tool is provided for educational and ethical purposes only. Usage of ProHunt for any unauthorized activities is strictly prohibited. You are solely responsible for your actions and the consequences of using this tool."
+# warning
+WAR = ["The ProHunt tool is provided for educational and ethical purposes only.", "Usage of ProHunt for any unauthorized activities is strictly prohibited.", "You are solely responsible for your actions and the consequences of using this tool."]
 
 # GitHub repository information
 GITHUB_REPO = "afloxy/prohunt"
@@ -33,7 +37,7 @@ GITHUB_API = f"https://api.github.com/repos/afloxy/prohunt/releases/latest"
 DEFAULT_WORDLIST = "default_wordlist.txt"
 
 # Cool animation
-ANIMATION_FRAMES = ["-", "\\", "|", "/"]
+ANIMATION_FRAMES = ["-", "\\", "/"]
 
 
 def check_latest_version():
@@ -48,8 +52,8 @@ def check_latest_version():
 
 
 def show_animation():
-    for frame in ANIMATION_FRAMES:
-        sys.stdout.write(f"\r{frame} {TOOL_NAME()} {VERSION}")
+    for frame in ANIMATION_FRAMES and for frame in WAR:
+        sys.stdout.write(f"\r{frame} {WAR}")
         sys.stdout.flush()
         time.sleep(0.1)
 
@@ -123,9 +127,9 @@ def scan_ports(subdomains, ports, timeout, verbose):
 
 def save_results(filename, target, subdomains, open_ports, include_ips):
     with open(filename, 'w') as file:
-        file.write(f"Target: {target}\n\n")
+        file.write(f"{target}\n\n")
 
-        file.write("Subdomains:\n")
+        file.write("\n")
         for subdomain in subdomains:
             ip = get_ip(subdomain) if include_ips else None
             if ip:
@@ -133,7 +137,7 @@ def save_results(filename, target, subdomains, open_ports, include_ips):
             else:
                 file.write(f"{subdomain}\n")
 
-        file.write("\nOpen ports:\n")
+        file.write("\n\n")
         for subdomain, ports in open_ports.items():
             if ports:
                 file.write(f"{subdomain}: {', '.join(map(str, ports))}\n")
@@ -153,7 +157,7 @@ def main(domain, ports, timeout, verbose, output, include_ips, ips_only, wordlis
 
         sys.exit(0)
 
-    TOOL_NAME()
+    print(TOOL_NAME())
     print(DESCRIPTION)
     show_animation()
     print("\n")
