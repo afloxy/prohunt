@@ -7,7 +7,7 @@ import time
 from bs4 import BeautifulSoup
 
 def TOOL_NAME():
-  print("""%s%s%s
+  return """%s%s%s
                  _____           _    _             _   
                 |  __ \         | |  | |           | |  
                 | |__) | __ ___ | |__| |_   _ _ __ | |_ 
@@ -16,29 +16,32 @@ def TOOL_NAME():
                 |_|   |_|  \___/|_|  |_|\__,_|_| |_|\__|@v1.0.0
 
                   # Coded By Nikhil Dwivedi - @afloxy
-    """ % (R, G, Y))
+    """ % (R, G, Y)
 G = '\033[92m'  # green
 Y = '\033[93m'  # yellow
 B = '\033[94m'  # blue
 R = '\033[91m'  # red
 W = '\033[0m'   # white
 
-# Version information
-VERSION = "https://api.github.com/repos/afloxy/prohunt/releases/latest"
-
-# warning
-WAR = ["The ProHunt tool is provided for educational and ethical purposes only.", "Usage of ProHunt for any unauthorized activities is strictly prohibited.", "You are solely responsible for your actions and the consequences of using this tool."]
-
 # GitHub repository information
 GITHUB_REPO = "afloxy/prohunt"
-GITHUB_API = f"https://api.github.com/repos/afloxy/prohunt/releases/latest"
+GITHUB_API = "https://api.github.com/repos/afloxy/prohunt/releases/latest"
+
 
 # Default wordlist file for dorking
 DEFAULT_WORDLIST = "default_wordlist.txt"
 
+# warning
+WAR = ["The ProHunt tool is provided for educational and ethical purposes only.", "Usage of ProHunt for any unauthorized activities is strictly prohibited.", "You are solely responsible for your actions and the consequences of using this tool."]
+
 # Cool animation
 ANIMATION_FRAMES = ["-", "\\", "/"]
 
+def show_animation():
+    for i in range(len(ANIMATION_FRAMES)):
+        sys.stdout.write(f"{ANIMATION_FRAMES} {WAR[i]}\n")
+        sys.stdout.flush()
+        time.sleep(0.1)
 
 def check_latest_version():
     try:
@@ -50,25 +53,15 @@ def check_latest_version():
     except (requests.RequestException, KeyError):
         return None
 
-
-def show_animation():
-    for frame in ANIMATION_FRAMES:
-      for alrt in WAR:
-        sys.stdout.write(f"\r{frame} {alrt}")
-        sys.stdout.flush()
-        time.sleep(0.1)
-
-
 def load_wordlist(wordlist):
     if wordlist:
         with open(wordlist, "r") as f:
-            custom_dorks = f.read().splitlines()
-            return custom_dorks
+            dorks = f.read().splitlines()
+            return dorks
     else:
         with open(DEFAULT_WORDLIST, "r") as f:
-            default_dorks = f.read().splitlines()
-            return default_dorks
-
+            dorks = f.read().splitlines()
+            return dorks
 
 def find_subdomains(target, wordlist):
     dorks = load_wordlist(wordlist)
@@ -159,13 +152,12 @@ def main(domain, ports, timeout, verbose, output, include_ips, ips_only, wordlis
         sys.exit(0)
 
     print(TOOL_NAME())
-    print(WAR)
     show_animation()
     print("\n")
 
     latest_version = check_latest_version()
     if latest_version and latest_version != VERSION:
-        print(f"\nA new version ({latest_version}) of {TOOL_NAME()} is available on GitHub.")
+        print(f"\nA new version ({latest_version}) of ProHunt is available on GitHub.")
         print(f"Please update your tool to access the latest features and improvements.")
         print(f"GitHub repository: https://github.com/{GITHUB_REPO}\n")
 
