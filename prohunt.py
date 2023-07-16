@@ -16,7 +16,7 @@ TOOL_NAME = r"""
 """
 
 # Version information
-VERSION = "v1.0"
+VERSION = "v1.1"
 
 # Tool description
 DESCRIPTION = "The ProHunt tool is provided for educational and ethical purposes only. Usage of ProHunt for any unauthorized activities is strictly prohibited. You are solely responsible for your actions and the consequences of using this tool."
@@ -137,7 +137,7 @@ def save_results(filename, target, subdomains, open_ports, include_ips):
                 file.write(f"{subdomain}: No open ports found\n")
 
 
-def main(target, ports, timeout, verbose, output, include_ips, ips_only, wordlist, update):
+def main(domain, ports, timeout, verbose, output, include_ips, ips_only, wordlist, update):
     if update:
         latest_version = check_latest_version()
         if latest_version and latest_version != VERSION:
@@ -160,11 +160,11 @@ def main(target, ports, timeout, verbose, output, include_ips, ips_only, wordlis
         print(f"Please update your tool to access the latest features and improvements.")
         print(f"GitHub repository: https://github.com/{GITHUB_REPO}\n")
 
-    subdomains = find_subdomains(target, wordlist)
+    subdomains = find_subdomains(domain, wordlist)
 
     open_ports = scan_ports(subdomains, ports, timeout, verbose)
 
-    print(f"\n\nSubdomains of {target}:")
+    print(f"\n\nSubdomains of {domain}:")
     for subdomain in subdomains:
         ip = get_ip(subdomain) if include_ips or ips_only else None
         if ips_only:
@@ -184,13 +184,13 @@ def main(target, ports, timeout, verbose, output, include_ips, ips_only, wordlis
             print(f"{subdomain}: No open ports found")
 
     if output:
-        save_results(output, target, subdomains, open_ports, include_ips)
+        save_results(output, domain, subdomains, open_ports, include_ips)
         print(f"\nResults saved to {output}")
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=DESCRIPTION)
-    parser.add_argument('target', help='Target domain')
+    parser.add_argument('-d', '--domain', help='Target domain')
     parser.add_argument('-u', '--update', action='store_true', help='Update Prohunt tool')
     parser.add_argument('-p', '--ports', nargs='+', type=int, default=[80, 443],
                         help='TCP ports to scan (space-separated) (default: 80 443)')
@@ -203,4 +203,5 @@ if __name__ == '__main__':
     parser.add_argument('-w', '--wordlist', help='Specify a wordlist file for dorking')
     args = parser.parse_args()
 
-    main(args.target, args.ports, args.timeout, args.verbose, args.output, args.include_ips, args.ips_only, args.wordlist, args.update)
+    main(args.domain, args.ports, args.timeout, args.verbose, args.output, args.include_ips, args.ips_only,
+         args.wordlist, args.update)
