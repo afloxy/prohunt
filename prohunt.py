@@ -23,6 +23,9 @@ B = '\033[94m'  # blue
 R = '\033[91m'  # red
 W = '\033[0m'   # white
 
+# VERSION of tool
+VERSION = "v1.0.0"
+
 # GitHub repository information
 GITHUB_REPO = "afloxy/prohunt"
 GITHUB_API = "https://api.github.com/repos/afloxy/prohunt/releases/latest"
@@ -115,6 +118,8 @@ def scan_ports(subdomains, ports, timeout, verbose):
                 if result == 0:
                     open_ports[subdomain].append(port)
                 sock.close()
+                if verbose:
+                    print(f"Port {port} on {subdomain} is open")              
             except socket.error:
                 pass
 
@@ -147,14 +152,17 @@ def save_results(filename, target, subdomains, open_ports, include_ips):
 
 
 def main(domain, ports, timeout, verbose, output, include_ips, ips_only, wordlist, update):
+  if not domain:
+        print("Error: Please provide a target domain.")
+        return
     if update:
         latest_version = check_latest_version()
         if latest_version and latest_version != VERSION:
-            print(f"Updating {TOOL_NAME()} to version {latest_version}...")
+            print(f"Updating ProHunt to version {latest_version}...")
             subprocess.call(["git", "pull"])
             print("Update completed.")
         else:
-            print(f"{TOOL_NAME()} is already up to date.")
+            print(f"ProHunt is already up to date.")
 
         sys.exit(0)
 
@@ -169,6 +177,9 @@ def main(domain, ports, timeout, verbose, output, include_ips, ips_only, wordlis
         print(f"GitHub repository: https://github.com/{GITHUB_REPO}\n")
 
     subdomains = find_subdomains(domain, wordlist)
+    if not subdomains:
+        print("No subdomains found for the target domain.")
+        return
 
     open_ports = scan_ports(subdomains, ports, timeout, verbose)
 
@@ -192,7 +203,7 @@ def main(domain, ports, timeout, verbose, output, include_ips, ips_only, wordlis
             print(f"{subdomain}: No open ports found")
 
     if output:
-        save_results(output, domain, subdomains, open_ports, include_ips)
+        save_results(output, domain, subdomains, open_ports)
         print(f"\nResults saved to {output}")
 
 
