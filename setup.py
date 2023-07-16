@@ -25,7 +25,7 @@ if script_path not in path_env:
     
     # Give the "prohunt" script executable permissions
     script_executable_path = "/usr/local/bin/prohunt/prohunt.py"  # Update the path if needed
-    os.chmod(script_executable_path, +x)
+    os.chmod(script_executable_path, 0o755)
 
 # Provide setup completion message
 print("Prohunt setup completed successfully.")
