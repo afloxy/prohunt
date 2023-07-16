@@ -134,16 +134,22 @@ intext:"Powered by AbanteCart" site:{target}
 intext:"Powered by CS-Cart" site:{target}'''
 
 # warning
-WAR = ["The ProHunt tool is provided for educational and ethical purposes only.", "Usage of ProHunt for any unauthorized activities is strictly prohibited.", "You are solely responsible for your actions and the consequences of using this tool."]
+WAR = [
+    "The ProHunt tool is provided for educational and ethical purposes only.",
+    "Usage of ProHunt for any unauthorized activities is strictly prohibited.",
+    "You are solely responsible for your actions and the consequences of using this tool."
+]
 
 # Cool animation
-ANIMATION_FRAMES =  ["/-/", "/^/", "/*/"]
+ANIMATION_FRAMES = ["/-/", "/^/", "/*/"]
+
 
 def show_animation():
     for i in range(len(ANIMATION_FRAMES)):
         sys.stdout.write(f"{Y}{ANIMATION_FRAMES[i]}{G} {WAR[i]}\n")
         sys.stdout.flush()
         time.sleep(0.1)
+
 
 def check_latest_version():
     try:
@@ -155,15 +161,15 @@ def check_latest_version():
     except (requests.RequestException, KeyError):
         return None
 
+
 def load_wordlist(wordlist):
     if wordlist:
         with open(wordlist, "r") as f:
             dorks = f.read().splitlines()
             return dorks
     else:
-        with open(DEFAULT_WORDLIST, "r") as f:
-            dorks = f.read().splitlines()
-            return dorks
+        return DEFAULT_WORDLIST.splitlines()
+
 
 def find_subdomains(domain, wordlist):
     subdomains = []
@@ -192,6 +198,7 @@ def find_subdomains(domain, wordlist):
 
     return subdomains
 
+
 def get_ip(subdomain):
     try:
         ip = socket.gethostbyname(subdomain)
@@ -217,7 +224,7 @@ def scan_ports(subdomains, ports, timeout, verbose):
                     open_ports[subdomain].append(port)
                 sock.close()
                 if verbose:
-                    print(f"Port {port} on {subdomain} is open")              
+                    print(f"Port {port} on {subdomain} is open")
             except socket.error:
                 pass
 
@@ -301,7 +308,7 @@ def main(domain, ports, timeout, verbose, output, include_ips, ips_only, wordlis
             print(f"{subdomain}: No open ports found")
 
     if output:
-        save_results(output, domain, subdomains, open_ports)
+        save_results(output, domain, subdomains, open_ports, include_ips)
         print(f"\nResults saved to {output}")
 
 
@@ -321,4 +328,3 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     main(args.domain, args.ports, args.timeout, args.verbose, args.output, args.include_ips, args.ips_only, args.wordlist, args.update)
-         
