@@ -35,17 +35,113 @@ GITHUB_API = "https://api.github.com/repos/afloxy/prohunt/releases/latest"
 
 
 # Default wordlist file for dorking
-DEFAULT_WORDLIST = "default_wordlist.txt"
+DEFAULT_WORDLIST = '''site:{target}
+site:*.{target}
+site:*.*.{target}
+site:{target} -www
+site:*.{target} -www
+site:*.*.{target} -www
+site:{target} -www -public
+site:{target} -www -public -internal
+site:*.{target} -www -public
+site:*.{target} -www -public -internal
+site:*.*.{target} -www -public
+site:*.*.{target} -www -public -internal
+intitle:"Welcome to {target}"
+intitle:"Index of /" site:{target}
+intext:"403 Forbidden" site:{target}
+intext:"404 Not Found" site:{target}
+intext:"500 Internal Server Error" site:{target}
+intext:"Page cannot be displayed" site:{target}
+intext:"Directory Listing" site:{target}
+intext:"Directory Listing of" site:{target}
+intext:"Directory of" site:{target}
+intext:"Index of /" site:{target}
+intext:"Parent Directory" site:{target}
+intext:"Apache 2 Test Page" site:{target}
+intext:"Apache HTTP Server Test Page powered by CentOS" site:{target}
+intext:"Welcome to nginx!" site:{target}
+intext:"Welcome to LiteSpeed Web Server!" site:{target}
+intext:"Microsoft SharePoint" site:{target}
+intext:"Powered by WordPress" site:{target}
+intext:"Powered by Drupal" site:{target}
+intext:"Powered by Joomla!" site:{target}
+intext:"Powered by Magento" site:{target}
+intext:"Powered by vBulletin" site:{target}
+intext:"Powered by phpBB" site:{target}
+intext:"Powered by MediaWiki" site:{target}
+intext:"Powered by DokuWiki" site:{target}
+intext:"Powered by MoinMoin" site:{target}
+intext:"Powered by Tiki Wiki CMS Groupware" site:{target}
+intext:"Powered by Liferay" site:{target}
+intext:"Powered by OpenCart" site:{target}
+intext:"Powered by PrestaShop" site:{target}
+intext:"Powered by Zen Cart" site:{target}
+intext:"Powered by osCommerce" site:{target}
+intext:"Powered by Typo3" site:{target}
+intext:"Powered by bbPress" site:{target}
+intext:"Powered by MyBB" site:{target}
+intext:"Powered by Vanilla" site:{target}
+intext:"Powered by ExpressionEngine" site:{target}
+intext:"Powered by MODX" site:{target}
+intext:"Powered by SilverStripe" site:{target}
+intext:"Powered by Concrete5" site:{target}
+intext:"Powered by dotCMS" site:{target}
+intext:"Powered by Ghost" site:{target}
+intext:"Powered by Umbraco" site:{target}
+intext:"Powered by Xoops" site:{target}
+intext:"Powered by Mambo" site:{target}
+intext:"Powered by TikiWiki" site:{target}
+intext:"Powered by Textpattern" site:{target}
+intext:"Powered by GetSimple CMS" site:{target}
+intext:"Powered by Plone" site:{target}
+intext:"Powered by SilverStripe CMS" site:{target}
+intext:"Powered by CMS Made Simple" site:{target}
+intext:"Powered by LifeRay" site:{target}
+intext:"Powered by PyroCMS" site:{target}
+intext:"Powered by ocPortal" site:{target}
+intext:"Powered by Croogo" site:{target}
+intext:"Powered by BIGACE" site:{target}
+intext:"Powered by Contao" site:{target}
+intext:"Powered by Sitefinity" site:{target}
+intext:"Powered by WebGUI" site:{target}
+intext:"Powered by SilverStripe CMS" site:{target}
+intext:"Powered by CMS Made Simple" site:{target}
+intext:"Powered by ImpressCMS" site:{target}
+intext:"Powered by PHP-Fusion" site:{target}
+intext:"Powered by DokuWiki" site:{target}
+intext:"Powered by MoinMoin" site:{target}
+intext:"Powered by Tiki Wiki CMS Groupware" site:{target}
+intext:"Powered by Liferay" site:{target}
+intext:"Powered by OpenCart" site:{target}
+intext:"Powered by PrestaShop" site:{target}
+intext:"Powered by Zen Cart" site:{target}
+intext:"Powered by osCommerce" site:{target}
+intext:"Powered by X-Cart" site:{target}
+intext:"Powered by Plone" site:{target}
+intext:"Powered by BigCommerce" site:{target}
+intext:"Powered by Shopware" site:{target}
+intext:"Powered by Shop-Script" site:{target}
+intext:"Powered by LiteCart" site:{target}
+intext:"Powered by Jigoshop" site:{target}
+intext:"Powered by WPeCommerce" site:{target}
+intext:"Powered by CubeCart" site:{target}
+intext:"Powered by VirtueMart" site:{target}
+intext:"Powered by TomatoCart" site:{target}
+intext:"Powered by Quick.Cart" site:{target}
+intext:"Powered by Arastta" site:{target}
+intext:"Powered by AbanteCart" site:{target}
+intext:"Powered by CS-Cart" site:{target}'''
 
 # warning
-WAR = ["{B]The ProHunt tool is provided for educational and ethical purposes only.", "{B]Usage of ProHunt for any unauthorized activities is strictly prohibited.", "{B]You are solely responsible for your actions and the consequences of using this tool."]
+WAR = ["The ProHunt tool is provided for educational and ethical purposes only.", "Usage of ProHunt for any unauthorized activities is strictly prohibited.", "You are solely responsible for your actions and the consequences of using this tool."]
 
 # Cool animation
-ANIMATION_FRAMES = ["{Y}/-\", "{Y}/^\", "{Y}/*\"]
+ANIMATION_FRAMES =  ["/-/", "/^/", "/*/"]
 
 def show_animation():
     for i in range(len(ANIMATION_FRAMES)):
-        sys.stdout.write(f"{ANIMATION_FRAMES[i]} {WAR[i]}\n")
+        sys.stdout.write(f"{Y}{ANIMATION_FRAMES[i]}{B} {WAR[i]}\n")
         sys.stdout.flush()
         time.sleep(0.1)
 
