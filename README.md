@@ -1,10 +1,17 @@
 <h1 align="center">ProHunt</h1>
+
+<p align="center">
+<a href="https://github.com/afloxy/prohunt/issues"><img src="https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat"></a>
+<a href="https://github.com/projectdiscovery/subfinder/releases"><img src="https://img.shields.io/github/release/afloxy/prohunt"></a>
+<a href="https://twitter.com/AFLOXYgaming"><img src="https://img.shields.io/twitter/follow/prohunt.svg?logo=twitter"></a>
+</p>
+
 <p align="center">
   <a href="#features">Features</a> •
   <a href="#installation">Install</a> •
   <a href="#usage">Usage</a> •
   <a href="#options">Options</a> •
-  <a href="#recommended-python-version">Python version</a> •
+  <a href="#recommended-python-version">Python version</a>
 </p>
 
 ProHunt Is a Subdomain Finder Tool using Google Dorking and it designed for educational and ethical purposes. It allows you to discover subdomains of a target domain and scan for open ports on those subdomains. Please note that ProHunt should only be used responsibly and with proper authorization.
