@@ -143,13 +143,11 @@ WAR = [
 # Cool animation
 ANIMATION_FRAMES = ["/-/", "/^/", "/*/"]
 
-
 def show_animation():
     for i in range(len(ANIMATION_FRAMES)):
         sys.stdout.write(f"{Y}{ANIMATION_FRAMES[i]}{G} {WAR[i]}\n")
         sys.stdout.flush()
         time.sleep(0.1)
-
 
 def check_latest_version():
     try:
@@ -161,7 +159,6 @@ def check_latest_version():
     except (requests.RequestException, KeyError):
         return None
 
-
 def load_wordlist(wordlist):
     if wordlist:
         with open(wordlist, "r") as f:
@@ -169,7 +166,6 @@ def load_wordlist(wordlist):
             return dorks
     else:
         return DEFAULT_WORDLIST.splitlines()
-
 
 def find_subdomains(domain, wordlist):
     subdomains = []
@@ -197,64 +193,6 @@ def find_subdomains(domain, wordlist):
                 subdomains.append(subdomain)
 
     return subdomains
-
-
-def get_ip(subdomain):
-    try:
-        ip = socket.gethostbyname(subdomain)
-        return ip
-    except socket.error:
-        return None
-
-
-def scan_ports(subdomains, ports, timeout, verbose):
-    open_ports = {}
-    total_subdomains = len(subdomains)
-    current_subdomain = 0
-
-    for subdomain in subdomains:
-        current_subdomain += 1
-        open_ports[subdomain] = []
-        for port in ports:
-            try:
-                sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                sock.settimeout(timeout)
-                result = sock.connect_ex((subdomain, port))
-                if result == 0:
-                    open_ports[subdomain].append(port)
-                sock.close()
-                if verbose:
-                    print(f"Port {port} on {subdomain} is open")
-            except socket.error:
-                pass
-
-        if verbose:
-            progress = current_subdomain / total_subdomains * 100
-            sys.stdout.write(f"\rScanning subdomains... {current_subdomain}/{total_subdomains} ({progress:.2f}%)")
-            sys.stdout.flush()
-
-    return open_ports
-
-
-def save_results(filename, target, subdomains, open_ports, include_ips):
-    with open(filename, 'w') as file:
-        file.write(f"{target}\n\n")
-
-        file.write("\n")
-        for subdomain in subdomains:
-            ip = get_ip(subdomain) if include_ips else None
-            if ip:
-                file.write(f"{subdomain} ({ip})\n")
-            else:
-                file.write(f"{subdomain}\n")
-
-        file.write("\n\n")
-        for subdomain, ports in open_ports.items():
-            if ports:
-                file.write(f"{subdomain}: {', '.join(map(str, ports))}\n")
-            else:
-                file.write(f"{subdomain}: No open ports found\n")
-
 
 def main(domain, ports, timeout, verbose, output, include_ips, ips_only, wordlist, update):
     if not domain:
@@ -310,7 +248,6 @@ def main(domain, ports, timeout, verbose, output, include_ips, ips_only, wordlis
     if output:
         save_results(output, domain, subdomains, open_ports, include_ips)
         print(f"\nResults saved to {output}")
-
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=WAR)
