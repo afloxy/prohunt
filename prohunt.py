@@ -5,7 +5,7 @@ import socket
 import sys
 import time
 import subprocess
-import random
+import webbrowser
 from bs4 import BeautifulSoup
 
 def TOOL_NAME():
@@ -143,53 +143,6 @@ WAR = [
 
 # Cool animation
 ANIMATION_FRAMES = ["/-/", "/^/", "/*/"]
-USER_AGENTS = [
-    # Chrome User Agents
-    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3',
-    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36',
-    'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3',
-    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36',
-    'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36',
-    
-    # Firefox User Agents
-    'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:58.0) Gecko/20100101 Firefox/58.0',
-    'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:58.0) Gecko/20100101 Firefox/58.0',
-    'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101 Firefox/78.0',
-    'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:54.0) Gecko/20100101 Firefox/54.0',
-    'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:54.0) Gecko/20100101 Firefox/54.0',
-    
-    # Safari User Agents
-    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.1 Safari/605.1.15',
-    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.1 Safari/605.1.15',
-    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.1.2 Safari/605.1.15',
-    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.1.2 Safari/605.1.15',
-    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/601.7.8 (KHTML, like Gecko) Version/9.1.3 Safari/601.7.8',
-    
-    # Edge User Agents
-    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 Edg/91.0.864.67',
-    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36 Edg/90.0.818.66',
-    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.128 Safari/537.36 Edg/89.0.774.76',
-    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36 Edg/85.0.564.70',
-    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36 Edg/81.0.416.77',
-    
-    # Opera User Agents
-    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 OPR/77.0.4054.277',
-    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 OPR/77.0.4054.277',
-    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 OPR/77.0.4054.277',
-    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 OPR/77.0.4054.277',
-    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 OPR/77.0.4054.277',
-]
-
-# List of proxy IP addresses (replace these with actual proxies from a reputable provider)
-IP_ADDRESSES = [
-    '1.2.3.4',
-    '5.6.7.8',
-    '9.10.11.12',
-    '10.0.0.1',
-    '172.31.0.1',
-    '192.0.2.1',
-    # Add more IP addresses if needed
-]
 
 def show_animation():
     for i in range(len(ANIMATION_FRAMES)):
@@ -214,57 +167,41 @@ def load_wordlist(wordlist):
             return dorks
     else:
         return DEFAULT_WORDLIST.splitlines()
+def save_results_to_template(template_file, domain, subdomains, open_ports, include_ips):
+    with open(template_file, "r") as f:
+        template_content = f.read()
 
-# Function to make requests with rotating IP addresses and random user agents
-def make_request(url):
-    ip_address = random.choice(IP_ADDRESSES) if IP_ADDRESSES else None
-    headers = {
-        'User-Agent': random.choice(USER_AGENTS),  # Use a random user agent for each request
-    }
-    time.sleep(random.uniform(1, 5))  # Add a random delay between 1 and 5 seconds
-    response = requests.get(url, headers=headers, proxies={'http': ip_address, 'https': ip_address})
-    try:
-        response = requests.get(url, headers=headers)
-        return response
-    except requests.RequestException as e:
-        print(f"Error occurred during the request: {e}")
-    return response
-    
-def find_subdomains(domain, wordlist):
-    subdomains = []
-
-    dorks = load_wordlist(wordlist)
-
-    for dork in dorks:
-        if "{target}" not in dork:
-            dork = dork + " site:" + domain
+    subdomain_list = ""
+    for subdomain in subdomains:
+        ip = get_ip(subdomain) if include_ips else None
+        if ips_only:
+            if ip:
+                subdomain_list += f"<li>{ip}</li>\n"
         else:
-            dork = dork.replace("{target}", domain)
+            if ip:
+                subdomain_list += f"<li>{subdomain} ({ip})</li>\n"
+            else:
+                subdomain_list += f"<li>{subdomain}</li>\n"
 
-        url = f"https://www.google.com/search?q={dork}"
+    open_ports_table = ""
+    for subdomain, ports in open_ports.items():
+        if ports:
+            open_ports_table += f"<tr><td>{subdomain}</td><td>{', '.join(map(str, ports))}</td></tr>\n"
+        else:
+            open_ports_table += f"<tr><td>{subdomain}</td><td>No open ports found</td></tr>\n"
 
-        response = make_request(url) # Use the custom function with delay, rotating IP addresses, and random user agent
-        if response is None:
-            continue
+    report_content = template_content.replace("{DOMAIN}", domain)
+    report_content = report_content.replace("{SUBDOMAIN_LIST}", subdomain_list)
+    report_content = report_content.replace("{OPEN_PORTS_TABLE}", open_ports_table)
 
-        if "Our systems have detected unusual traffic" in response.text:
-            print("CAPTCHA challenge encountered. Please solve the CAPTCHA and try again later.")
-            sys.exit(1)
+    with open("report.html", "w") as f:
+        f.write(report_content)
 
-        if "blocked your access" in response.text:
-            print("Your IP has been blocked by Google due to excessive requests. Please try again later.")
-            sys.exit(1)
-        soup = BeautifulSoup(response.text, 'html.parser')
-        results = soup.find_all('a')
+    # Automatically open the HTML report in the default web browser
+    webbrowser.open_new_tab("report.html")
 
-        for result in results:
-            link = result.get('href')
-            if link.startswith('/url?q='):
-                subdomain = link.split('/')[2]
-                subdomains.append(subdomain)
 
-    return subdomains
-def main(domain, ports, timeout, verbose, output, include_ips, ips_only, wordlist, update):
+def main(domain, ports, timeout, verbose, output, include_ips, ips_only, wordlist, update, template_file):
     if not domain:
         print("Error: Please provide a target domain.")
         return
@@ -288,8 +225,12 @@ def main(domain, ports, timeout, verbose, output, include_ips, ips_only, wordlis
         print(f"\nA new version ({latest_version}) of ProHunt is available on GitHub.")
         print(f"Please update your tool to access the latest features and improvements.")
         print(f"GitHub repository: https://github.com/{GITHUB_REPO}\n")
+        
+    # Load wordlist and add the target domain to it
+    dorks = load_wordlist(wordlist)
+    dorks = [dork.replace("{target}", domain) for dork in dorks]
 
-    subdomains = find_subdomains(domain, wordlist)
+    subdomains = manual_input_subdomains(domain, wordlist)
     if not subdomains:
         print("No subdomains found for the target domain.")
         return
@@ -316,8 +257,8 @@ def main(domain, ports, timeout, verbose, output, include_ips, ips_only, wordlis
             print(f"{subdomain}: No open ports found")
 
     if output:
-        save_results(output, domain, subdomains, open_ports, include_ips)
-        print(f"\nResults saved to {output}")
+        save_results_to_template(template_file, domain, subdomains, open_ports, include_ips)
+        print(f"\nResults saved to report.html")
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=WAR)
@@ -332,6 +273,7 @@ if __name__ == '__main__':
     parser.add_argument('-ip', '--include-ips', action='store_true', help='Include IP addresses along with subdomain names')
     parser.add_argument('-ip-only', '--ips-only', action='store_true', help='Display only the IP addresses of subdomains')
     parser.add_argument('-w', '--wordlist', help='Specify a wordlist file for dorking')
+    parser.add_argument('-tf', '--template-file', default='template.html', help='HTML template file for the report')
     args = parser.parse_args()
 
-    main(args.domain, args.ports, args.timeout, args.verbose, args.output, args.include_ips, args.ips_only, args.wordlist, args.update)
+    main(args.domain, args.ports, args.timeout, args.verbose, args.output, args.include_ips, args.ips_only, args.wordlist, args.update, args.template_file)
