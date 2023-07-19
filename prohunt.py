@@ -200,10 +200,28 @@ def save_results_to_template(template_file, domain, subdomains, open_ports, incl
     # Automatically open the HTML report in the default web browser
     webbrowser.open_new_tab("report.html")
 
+def manual_input_subdomains(domain, wordlist):
+    subdomains = []
+    subdomains.append(domain)
 
+    with open(wordlist, "a") as f:
+        f.write(domain + "\n")
+
+    print(f"Domain '{domain}' added to the wordlist.")
+    print("Enter additional subdomains of the target domain (one per line). Press Enter on a blank line to finish.")
+    while True:
+        subdomain = input().strip()
+        if not subdomain:
+            break
+
+        subdomains.append(subdomain)
+        with open(wordlist, "a") as f:
+            f.write(subdomain + "\n")
+
+    return subdomains
 def main(domain, ports, timeout, verbose, output, include_ips, ips_only, wordlist, update, template_file):
-    if not domain:
-        print("Error: Please provide a target domain.")
+    if not domain and not template_file:
+        print("Error: Please provide a target domain or template file.")
         return
     if update:
         latest_version = check_latest_version()
@@ -214,6 +232,12 @@ def main(domain, ports, timeout, verbose, output, include_ips, ips_only, wordlis
         else:
             print(f"ProHunt is already up to date.")
 
+        sys.exit(0)
+
+    if template_file:
+        with open(template_file, "r") as tmpl:
+            content = tmpl.read()
+        print(content)
         sys.exit(0)
 
     print(TOOL_NAME())
@@ -229,11 +253,18 @@ def main(domain, ports, timeout, verbose, output, include_ips, ips_only, wordlis
     # Load wordlist and add the target domain to it
     dorks = load_wordlist(wordlist)
     dorks = [dork.replace("{target}", domain) for dork in dorks]
+    if not wordlist:
+        wordlist = "wordlist.txt"
 
-    subdomains = manual_input_subdomains(domain, wordlist)
-    if not subdomains:
-        print("No subdomains found for the target domain.")
-        return
+    if not os.path.exists(wordlist):
+        with open(wordlist, "w") as f:
+            f.write(DEFAULT_WORDLIST)
+
+    if domain:
+        subdomains = manual_input_subdomains(domain, wordlist)
+    else:
+        with open(wordlist, "r") as f:
+            subdomains = f.read().splitlines()
 
     open_ports = scan_ports(subdomains, ports, timeout, verbose)
 
