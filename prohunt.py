@@ -238,8 +238,8 @@ def main(domain, ports, timeout, verbose, output, include_ips, ips_only, wordlis
     if template_file:
         with open(template_file, "r") as tmpl:
             content = tmpl.read()
-        print(content)
-        sys.exit(0)
+            print(content)
+            sys.exit(0)        
 
     print(TOOL_NAME())
     show_animation()
