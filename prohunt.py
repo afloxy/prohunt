@@ -6,6 +6,7 @@ import sys
 import time
 import subprocess
 import webbrowser
+import os
 from bs4 import BeautifulSoup
 
 def TOOL_NAME():
@@ -164,7 +165,7 @@ def load_wordlist(wordlist):
     if wordlist:
         with open(wordlist, "r") as f:
             dorks = f.read().splitlines()
-            return dorks
+            return "\n".join(dorks)
     else:
         return DEFAULT_WORDLIST.splitlines()
 def save_results_to_template(template_file, domain, subdomains, open_ports, include_ips):
