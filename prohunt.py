@@ -223,6 +223,11 @@ def make_request(url):
     }
     time.sleep(random.uniform(1, 5))  # Add a random delay between 1 and 5 seconds
     response = requests.get(url, headers=headers, proxies={'http': ip_address, 'https': ip_address})
+    try:
+        response = requests.get(url, headers=headers)
+        return response
+    except requests.RequestException as e:
+        print(f"Error occurred during the request: {e}")
     return response
     
 def find_subdomains(domain, wordlist):
@@ -238,8 +243,17 @@ def find_subdomains(domain, wordlist):
 
         url = f"https://www.google.com/search?q={dork}"
 
-        response = make_request(url)  # Use the custom function with delay, rotating IP addresses, and random user agent
+        response = make_request(url) # Use the custom function with delay, rotating IP addresses, and random user agent
+        if response is None:
+            continue
 
+        if "Our systems have detected unusual traffic" in response.text:
+            print("CAPTCHA challenge encountered. Please solve the CAPTCHA and try again later.")
+            sys.exit(1)
+
+        if "blocked your access" in response.text:
+            print("Your IP has been blocked by Google due to excessive requests. Please try again later.")
+            sys.exit(1)
         soup = BeautifulSoup(response.text, 'html.parser')
         results = soup.find_all('a')
 
