@@ -5,6 +5,7 @@ import socket
 import sys
 import time
 import subprocess
+import random
 from bs4 import BeautifulSoup
 
 def TOOL_NAME():
@@ -142,6 +143,53 @@ WAR = [
 
 # Cool animation
 ANIMATION_FRAMES = ["/-/", "/^/", "/*/"]
+USER_AGENTS = [
+    # Chrome User Agents
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3',
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36',
+    'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3',
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36',
+    'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36',
+    
+    # Firefox User Agents
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:58.0) Gecko/20100101 Firefox/58.0',
+    'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:58.0) Gecko/20100101 Firefox/58.0',
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101 Firefox/78.0',
+    'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:54.0) Gecko/20100101 Firefox/54.0',
+    'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:54.0) Gecko/20100101 Firefox/54.0',
+    
+    # Safari User Agents
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.1 Safari/605.1.15',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.1 Safari/605.1.15',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.1.2 Safari/605.1.15',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.1.2 Safari/605.1.15',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/601.7.8 (KHTML, like Gecko) Version/9.1.3 Safari/601.7.8',
+    
+    # Edge User Agents
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 Edg/91.0.864.67',
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36 Edg/90.0.818.66',
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.128 Safari/537.36 Edg/89.0.774.76',
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36 Edg/85.0.564.70',
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36 Edg/81.0.416.77',
+    
+    # Opera User Agents
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 OPR/77.0.4054.277',
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 OPR/77.0.4054.277',
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 OPR/77.0.4054.277',
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 OPR/77.0.4054.277',
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 OPR/77.0.4054.277',
+]
+
+# List of proxy IP addresses (replace these with actual proxies from a reputable provider)
+IP_ADDRESSES = [
+    '1.2.3.4',
+    '5.6.7.8',
+    '9.10.11.12',
+    '10.0.0.1',
+    '172.31.0.1',
+    '192.0.2.1',
+    # Add more IP addresses if needed
+]
 
 def show_animation():
     for i in range(len(ANIMATION_FRAMES)):
@@ -167,6 +215,16 @@ def load_wordlist(wordlist):
     else:
         return DEFAULT_WORDLIST.splitlines()
 
+# Function to make requests with rotating IP addresses and random user agents
+def make_request(url):
+    ip_address = random.choice(IP_ADDRESSES) if IP_ADDRESSES else None
+    headers = {
+        'User-Agent': random.choice(USER_AGENTS),  # Use a random user agent for each request
+    }
+    time.sleep(random.uniform(1, 5))  # Add a random delay between 1 and 5 seconds
+    response = requests.get(url, headers=headers, proxies={'http': ip_address, 'https': ip_address})
+    return response
+    
 def find_subdomains(domain, wordlist):
     subdomains = []
 
@@ -179,10 +237,9 @@ def find_subdomains(domain, wordlist):
             dork = dork.replace("{target}", domain)
 
         url = f"https://www.google.com/search?q={dork}"
-        headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'
-        }
-        response = requests.get(url, headers=headers)
+
+        response = make_request(url)  # Use the custom function with delay, rotating IP addresses, and random user agent
+
         soup = BeautifulSoup(response.text, 'html.parser')
         results = soup.find_all('a')
 
@@ -193,7 +250,6 @@ def find_subdomains(domain, wordlist):
                 subdomains.append(subdomain)
 
     return subdomains
-
 def main(domain, ports, timeout, verbose, output, include_ips, ips_only, wordlist, update):
     if not domain:
         print("Error: Please provide a target domain.")
